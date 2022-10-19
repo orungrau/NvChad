@@ -11,6 +11,13 @@ local plugins = {
     end,
   },
 
+  ["jose-elias-alvarez/null-ls.nvim"] = {
+    after = "nvim-lspconfig",
+    config = function()
+      require "custom.plugins.null-ls"
+    end,
+  },
+
   ["NvChad/extensions"] = { module = { "telescope", "nvchad" } },
 
   ["NvChad/base46"] = {
@@ -122,6 +129,7 @@ local plugins = {
   },
 
   ["hrsh7th/nvim-cmp"] = {
+    commit = "b0dff0ec4f2748626aae13f011d1a47071fe9abc",
     after = "friendly-snippets",
     config = function()
       require "plugins.configs.cmp"
@@ -217,9 +225,9 @@ if present then
   -- load packer init options
   local init_options = require("plugins.configs.others").packer_init()
   init_options = require("core.utils").load_override(init_options, "wbthomason/packer.nvim")
-  packer.init(init_options)
 
-  for _, v in pairs(plugins) do
-    packer.use(v)
-  end
+  packer.init(init_options)
+  packer.startup { plugins }
 end
+vim.g.copilot_no_tab_map = true
+vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
